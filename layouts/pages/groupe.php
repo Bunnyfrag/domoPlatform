@@ -16,9 +16,11 @@
 
 	<div class="contentContent">
 	<?php
-		$query = $pdo->prepare('SELECT id,code,valeur,label,type_sonde_id,groupe_id FROM sonde WHERE groupe_id = :groupID');	// Secure SQL query
-		$stmt = $query->execute(array('groupeID' => $groupeId));
-		$sondes		= $stmt->fetchAll();
+		$query = $pdo->prepare('SELECT id, code, valeur, label, type_sonde_id, groupe_id
+														FROM sonde
+														WHERE groupe_id = :groupID');
+		$query->execute(array(':groupID' => $groupeId));
+		$sondes	= $query->fetchAll();
 
 		foreach( $sondes as $sonde ){
 			$img='';
@@ -47,7 +49,13 @@
 
 				case TYPE_SONDE_FENETRE:
 				$img = 'volet_';
-				$img.= $sonde['valeur'] == 0?'ouvert' : $sonde['valeur'] == 1?'moitie_ouvert' : $sonde['valeur'] == 2?'ferme';
+				if ($sonde['valeur'] == 0){
+								$img.= 'ouvert';
+							} elseif ($sonde['valeur'] == 1){
+								$img.= 'moitie_ouvert';
+							} else {
+								$img.= 'ferme';
+							}
 				$img.= '.png';
 				$btnLayout = '<div class="blocBtn">'.
 									'	<input class="fenetreAction" name="btnFenetre1" value="';
