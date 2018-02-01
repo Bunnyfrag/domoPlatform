@@ -1,26 +1,26 @@
 <?php
 
-// Inclusion du fichier de paramétre
+// Include parameter file
 	require ( 'parametres.php' );
-	
-// Détermination de la page à afficher
+
+// Choosing which page to show
 	$pageAffiche = 'accueil';
 	if ( isset( $_GET['page'] ) && $_GET['page'] != '' && file_exists( 'layouts/pages/' . $_GET['page'] . '.php' ) ){
 		$pageAffiche = $_GET['page'];
 	}
 
-// Appel de l'entete de la page
+// Calling header
 	require ( 'layouts/header.php' );
 
-// Appel du menu
+// Calling menu
 	require ( 'layouts/menu.php' );
 
-// Gestion du contenu de la page
+// Manage content
 	echo '<div id="content">';
 		require ( 'layouts/pages/' . $pageAffiche . '.php' );
 	echo '</div>';
 
-// Appel du footer
+// Calling footer
 	require ( 'layouts/footer.php' );
 
 ?>

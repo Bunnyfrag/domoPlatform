@@ -1,6 +1,6 @@
 <?php
 
-// Extraction de l'id
+// Extracting the group ID
 	$groupeId = 0;
 	if ( isset( $_GET['id'] ) && $_GET['id'] > 0 ){
 		$groupeId = $_GET['id'];
@@ -16,10 +16,10 @@
 
 	<div class="contentContent">
 	<?php
-		//TODO QUERY IS BAD (USE BIND INSTEAD)
-		$query		= "SELECT id,code,valeur,label,type_sonde_id,groupe_id FROM sonde WHERE groupe_id =".$groupeId.";";
-		$stmt		= $pdo->query($query);
+		$query = $pdo->prepare('SELECT id,code,valeur,label,type_sonde_id,groupe_id FROM sonde WHERE groupe_id = :groupID');	// Secure SQL query
+		$stmt = $query->execute(array('groupeID' => $groupeId));
 		$sondes		= $stmt->fetchAll();
+
 		foreach( $sondes as $sonde ){
 			$img='';
 			$btnLayout='';
@@ -27,7 +27,7 @@
 			switch($sonde['type_sonde_id']){
 				case TYPE_SONDE_TEMPERATURE:
 				$img = 'thermometre.png';
-				$btnLayout = '<div class="number">'.$sonde['valeur'].'°c</div>';
+				$btnLayout = '<div class="number">'.$sonde['valeur'].'°C</div>';
 				break;
 
 				case TYPE_SONDE_HORAIRE:
@@ -46,9 +46,23 @@
 				break;
 
 				case TYPE_SONDE_FENETRE:
-				$img = 'volet_ferme.png';
-				$btnLayout = '<img src="img/volet_ouvert.png" style="position: relative;bottom: 70px;left: 50px; width:80px;">';
-				$btnLayout.= '<img src="img/volet_moitie_ouvert.png" style="position: relative;bottom: 70px;left: 40px; width:80px;">';
+				$img = 'volet_';
+				$img.= $sonde['valeur'] == 0?'ouvert' : $sonde['valeur'] == 1?'moitie_ouvert' : $sonde['valeur'] == 2?'ferme';
+				$img.= '.png';
+				$btnLayout = '<div class="blocBtn">'.
+									'	<input class="fenetreAction" name="btnFenetre1" value="';
+				$btnLayout.= $sonde['valeur'] == 0?'Abaisser':'Ouvrir';	// 1st button
+				$btnLayout.= '" type="button" data-action="';
+				$btnLayout.= $sonde['valeur'] == 0?'semi-open':'open';
+				$btnLayout.= '">'.
+									'</div>'.
+									'<div class="blocBtn">'.
+									'	<input class="fenetreAction" name="btnFenetre2" value="';
+				$btnLayout.= $sonde['valeur'] == 2?'Entrouvrir':'Fermer';	// 2nd button
+				$btnLayout.= '" type="button" data-action="';
+				$btnLayout.= $sonde['valeur'] == 2?'semi-open':'close';
+				$btnLayout.='">'.
+									'</div>';
 				break;
 
 				case TYPE_SONDE_ECLAIRAGE:
@@ -59,7 +73,7 @@
 							 '	<input name="btnLampe" value="';
 				$btnLayout.= $sonde['valeur'] == 0?'Eteindre':'Allumer';
 				$btnLayout.= '" type="button">'.
-				'</div>';
+							'</div>';
 				break;
 
 				case TYPE_SONDE_LUMINOSITE:
@@ -112,17 +126,17 @@
 <script>
 	$(document).ready( function(){
 
-		$('#pageGroupe').on( 'click', 'input[name="btnLampe"]', function( e ){
-			// Stop la propagation
+		$('#pageGroupe').on( 'click', 'input[name="btnLampe"]', function( e ){	/* Toggle the light */
+			// Stop propagating
 				e.preventDefault();
 
-			// Récupération du parent
+			// Fetch the parent
 				var parent = $(this).parents('.sonde');
 
-			// Récupérationde l'id de la sonde
+			// Fetch the probe ID
 				var sondeId = parent.data('sonde-id');
 
-			// Envoi des données au serveur
+			// Send data to the server
 				$.ajax({
 					url			: 'ajax/update_lampe.php',
 					type		: 'POST',
@@ -131,7 +145,7 @@
 					},
 					dataType	: 'json',
 					success		: function( response ){
-						// Gestion de la réponse
+						// Response management
 							resultId = parseInt( response.result );
 							if ( resultId > 0 ){
 								if ( response.newValeur == 1 ){
@@ -149,16 +163,16 @@
 		});
 
 		$('#pageGroupe').on( 'click', 'input[name="btnPorte"]', function( e ){
-			// Stop la propagation
+			// Stop propagating
 				e.preventDefault();
 
-			// Récupération du parent
+			// Fetch the parent
 				var parent = $(this).parents('.sonde');
 
-			// Récupérationde l'id de la sonde
+			// Fetch the probe ID
 				var sondeId = parent.data('sonde-id');
 
-			// Envoi des données au serveur
+			// Send data to the server
 				$.ajax({
 					url			: 'ajax/update_porte.php',
 					type		: 'POST',
@@ -167,7 +181,7 @@
 					},
 					dataType	: 'json',
 					success		: function( response ){
-						// Gestion de la réponse
+						// Response management
 							resultId = parseInt( response.result );
 							if ( resultId > 0 ){
 								if ( response.newValeur == 1 ){
@@ -185,16 +199,16 @@
 		});
 
 		$('#pageGroupe').on( 'click','.chauffageAction', function( e ){
-			// Stop la propagation
+			// Stop propagating
 				e.preventDefault();
 
-			// Récupération du parent
+			// Fetch the parent
 				var parent = $(this).parents('.sonde');
 
-			// Récupérationde l'id de la sonde
+			// Fetch the probe ID
 				var sondeId = parent.data('sonde-id');
 
-			// Envoi des données au serveur
+			// Send data to the server
 				$.ajax({
 					url			: 'ajax/update_chauffage.php',
 					type		: 'POST',
@@ -204,7 +218,7 @@
 					},
 					dataType	: 'json',
 					success		: function( response ){
-						// Gestion de la réponse
+						// Response management
 							resultId = parseInt( response.result );
 							if ( resultId > 0 ){
 								parent.find('.number').html(response.newValeur)+'°';
@@ -214,6 +228,52 @@
 					}
 				});
 		});
+
+
+		$('#pageGroupe').on( 'click','.fenetreAction', function( e ){
+			// Stop propagating
+				e.preventDefault();
+
+			// Fetch the parent
+				var parent = $(this).parents('.sonde');
+
+			// Fetch the probe ID
+				var sondeId = parent.data('sonde-id');
+
+			// Send data to the server
+				$.ajax({
+					url			: 'ajax/update_fenetre.php',
+					type		: 'POST',
+					data		: {
+						sonde_id	: sondeId,
+						action		: this.dataset.action
+					},
+					dataType	: 'json',
+					success		: function( response ){
+						// Response management
+							resultId = parseInt( response.result );
+							if ( resultId > 0 ){
+								if ( response.newValeur == 0 ){
+									parent.find('.imageSeule img').attr('src', 'img/volet_ouvert.png');
+									parent.find('input[name="btnFenetre1"]').val('Abaisser');
+									parent.find('input[name="btnFenetre2"]').val('Fermer');
+								} elseif (response.newValeur == 1) {
+									parent.find('.imageSeule img').attr('src', 'img/volet_moitie_ouvert.png');
+									parent.find('input[name="btnFenetre1"]').val('Ouvrir');
+									parent.find('input[name="btnFenetre2"]').val('Fermer');
+								} else {
+									parent.find('.imageSeule img').attr('src', 'img/volet_ferme.png');
+									parent.find('input[name="btnFenetre1"]').val('Ouvrir');
+									parent.find('input[name="btnFenetre2"]').val('Entrouvrir');
+								}
+							} else {
+								alert('Erreur lors de la mise à jour du chauffage');
+							}
+					}
+				});
+		});
+
+
 	});
 
 </script>
