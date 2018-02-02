@@ -264,21 +264,21 @@
 								if ( response.newValeur == 0 ){
 									parent.find('.imageSeule img').attr('src', 'img/volet_ouvert.png');
 									parent.find('input[name="btnFenetre1"]').val('Abaisser');
-									parent.find('input[data-action]').setAttribute('data-action', semi-open);
+									parent.find('input[name="btnFenetre1"]').attr('data-action', 'semi-open');
 									parent.find('input[name="btnFenetre2"]').val('Fermer');
-									parent.find('input[data-action]').setAttribute('data-action', close);
+									parent.find('input[name="btnFenetre2"]').attr('data-action', 'close');
 								} else if (response.newValeur == 1) {
 									parent.find('.imageSeule img').attr('src', 'img/volet_moitie_ouvert.png');
 									parent.find('input[name="btnFenetre1"]').val('Ouvrir');
-									parent.find('input[data-action]').setAttribute('data-action', open);
+									parent.find('input[name="btnFenetre1"]').attr('data-action', 'open');
 									parent.find('input[name="btnFenetre2"]').val('Fermer');
-									parent.find('input[data-action]').setAttribute('data-action', close);
+									parent.find('input[name="btnFenetre2"]').attr('data-action', 'close');
 								} else {
 									parent.find('.imageSeule img').attr('src', 'img/volet_ferme.png');
 									parent.find('input[name="btnFenetre1"]').val('Ouvrir');
-									parent.find('input[data-action]').setAttribute('data-action', open);
+									parent.find('input[name="btnFenetre1"]').attr('data-action', 'open');
 									parent.find('input[name="btnFenetre2"]').val('Entrouvrir');
-									parent.find('input[data-action]').setAttribute('data-action', semi-open);
+									parent.find('input[name="btnFenetre2"]').attr('data-action', 'semi-open');
 								}
 							} else {
 								alert('Erreur lors de la mise à jour de la fenetre');
