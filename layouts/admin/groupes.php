@@ -38,44 +38,77 @@
 <script>
 	$(document).ready( function(){
 
-		table = $('#GroupeTable').DataTable( {
-				"ajax": './ajax/update_groupe.php?fuseaction=getDataTableValues',
-				"iDisplayLength": 10
-		} );
+			table = $('#GroupeTable').DataTable( {
+					"ajax": './ajax/update_groupe.php?fuseaction=getDataTableValues',
+					"iDisplayLength": 10
+			} );
+
 		table.on( 'draw', function () {
 			$('a.edit').each(function(){
 				$(this).click(function(event){
+					let label = '',ordre = '',icone = '';
 					var id = this.dataset.id;
 					event.preventDefault();
 					console.log(this.dataset.id);
-					swal({
-					  title: 'Ajouter un groupe',
-					  html:
-					    '<input type=text name="label"></input>' +
-					    '<input type=text name="ordre"></input>' +
-					    '<input type=text name="icone"></input>',
-					  showCloseButton: true,
-					  showCancelButton: true,
-					  focusConfirm: false,
-					  confirmButtonText:	'Valider',
-					  cancelButtonText:		'Annuler',
-					}).then((result) => {
-						console.log(result);
-						if (result.value) {
-							$.ajax({
-							  url: "ajax/update_groupe.php?fuseaction=saveData",
-							  data: {
-									id		: id,
-									label	: $('input[name="label"]'),
-									ordre	: $('input[name="ordre"]'),
-									icone	: $('input[name="icone"]')
-								}
-							})
-							  .done(function( msg ) {
-							    alert( "Data Saved: " + msg );
-							  });
-						}
-					});
+
+						$.ajax({
+							url			: 'ajax/update_groupe.php?fuseaction=getValuesById',
+							type		: 'POST',
+							data		: {
+								id	: this.dataset.id
+							},
+							dataType	: 'json',
+							success		: function( response ){
+								// Response management
+									if(response){
+										if (id>0) {
+										label = response.label;
+										ordre = response.ordre;
+										icone = response.icone;
+										}
+										swal({
+										  title: 'Ajouter un groupe',
+										  html:
+										    '<label for="label">Label</label><input type=text name="label" value="'+label+'">' +
+										    '<label for="ordre">Ordre</label><input type=text name="ordre" value="'+ordre+'">' +
+										    '<label for="icone">Icone</label><input type=text name="icone" value="'+icone+'">',
+										  showCloseButton: true,
+										  showCancelButton: true,
+										  focusConfirm: false,
+										  confirmButtonText:	'Valider',
+										  cancelButtonText:		'Annuler',
+										}).then((result) => {
+											console.log(result);
+											if (result.value) {
+
+												$.ajax({
+													url			: "ajax/update_groupe.php?fuseaction=saveData",
+													type		: 'POST',
+													data		: {
+														id		: id,
+														label	: $('input[name="label"]').val(),
+														ordre	: $('input[name="ordre"]').val(),
+														icone	: $('input[name="icone"]').val()
+													},
+													dataType	: 'json',
+													success		: function( response ){
+															 table.ajax.reload();
+													}
+												});
+
+											}
+										});
+
+									}else{
+										alert('Erreur lors de la mise à jour du formulaire');
+										return;
+									}
+									resultId = parseInt( response.result );
+									console.log(label);
+							}
+						});
+
+
 				});
 			});
 			$('a.delete').each(function(){
@@ -83,7 +116,6 @@
 					var id = this.dataset.id;
 					swal({
 					  title: 'Supprimer?',
-					  text: "You won't be able to revert this!",
 					  type: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor:	'#3085d6',
@@ -97,11 +129,10 @@
 							  data: { id: id }
 							})
 							  .done(function( msg ) {
-							    alert( "Data Saved: " + msg );
 							  });
 					    swal(
-					      'Supprimé',
-					      'Your file has been deleted.',
+					      'Confirmé',
+					      'Groupe supprimé.',
 					      'success'
 					    )
 					  }

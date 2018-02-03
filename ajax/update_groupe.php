@@ -31,37 +31,46 @@ function getDataTableValues(){
 		$ret['aaData'] = $groupeValues;
 
 	// Tout est Ok
-		echo json_encode( $ret );
+		return json_encode( $ret );
 
 	// Fin d'éxécution
 		exit(0);
 }
 
 function getValuesById($id){
+		if ($id==0) {
+			return json_encode(true);
+		}
 	require '../parametres.php';
 		$query = 'SELECT * FROM groupe WHERE id = :id ';
-		$stmt = $pdo->query( $query );
+		//$stmt = $pdo->query( $query );
+		$stmt = $pdo->prepare( $query );
 		$stmt->bindParam(':id', $id);
-		$result = $stmt->fetchAll();
-		echo json_encode($result);
+		$stmt->execute();
+		$result = $stmt->fetch();
+		return json_encode($result);
 }
 
 
 function saveData($id){
 	require '../parametres.php';
 	$query = 'SELECT * FROM groupe WHERE id = :id ';
-	$stmt = $pdo->query( $query );
+	$stmt = $pdo->prepare( $query );
 	$stmt->bindParam(':id', $id);
+	$stmt->execute();
 	$result = count( $stmt->fetchAll() );
 	if( $result < 1){
-		$request = 'INSERT INTO groupe 	VALUES :label , :ordre , :icone';
+		$request = 'INSERT INTO groupe ( label, ordre, icone ) VALUES ( :label , :ordre , :icone)';
 	}else{
-		$request = 'UPDATE SET label = :label , ordre = :ordre , icone = :icone';
+		$request = 'UPDATE groupe SET label = :label , ordre = :ordre , icone = :icone WHERE id = :id';
 	}
 	$prep = $pdo->prepare( $request );
 	$prep->bindValue(':label', $_REQUEST['label']);
 	$prep->bindValue(':ordre', $_REQUEST['ordre']);
 	$prep->bindValue(':icone', $_REQUEST['icone']);
+	if( $result > 0){
+		$prep->bindParam(':id', $id);
+	}
 	return( $prep->execute() );
 
 }
@@ -76,35 +85,35 @@ function delData($id){
 
 switch ($_GET['fuseaction']) {
 	case 'getDataTableValues':
-		getDataTableValues();
+		echo getDataTableValues();
 	break;
 
 	case 'getValuesById':
-		if(isset ($_REQUEST['sonde_id']) ){
-			getValuesById($_REQUEST['sonde_id']);
+		if(isset ($_REQUEST['id']) ){
+			echo getValuesById($_REQUEST['id']);
 		}else{
-			return -2;
+			echo -2;
 		}
 	break;
 
 	case 'saveData':
-		if(isset ($_REQUEST['sonde_id']) ){
-			saveData($_REQUEST['sonde_id']);
+		if(isset ($_REQUEST['id']) ){
+			echo saveData($_REQUEST['id']);
 		}else{
-			return -2;
+			echo -2;
 		}
 	break;
 
 	case 'delData':
-		if(isset ($_REQUEST['sonde_id']) ){
-			delData($_REQUEST['sonde_id']);
+		if(isset ($_REQUEST['id']) ){
+			echo delData($_REQUEST['id']);
 		}else{
-			return -2;
+			echo -2;
 		}
 	break;
 
 	default:
-		return -1;
+		echo -1;
 		break;
 }
 ?>
