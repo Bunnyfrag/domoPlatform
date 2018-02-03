@@ -91,15 +91,18 @@
 							success		: function( response ){
 								// Response management
 									if(response){
+										action = 'Ajouter';
+
 										if (id>0) {
-										code		= response.code;
-										valeur	= response.valeur;
-										label		= response.label;
-										type		= response.type;
-										groupe	= response.groupe;
+											action = 'Modifier';
+											code		= response.code;
+											valeur	= response.valeur;
+											label		= response.label;
+											type		= response.type;
+											groupe	= response.groupe;
 										}
 										swal({
-										  title: 'Ajouter un sonde',
+										  title: Action + ' une sonde',
 										  html:
 										    '<label for="code">Code</label><input type=text name="code" value="'+code+'">' +
 										    '<label for="valeur">Valeur</label><input type=text name="valeur" value="'+valeur+'">' +
