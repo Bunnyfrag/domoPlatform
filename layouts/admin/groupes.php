@@ -129,12 +129,14 @@
 							  data: { id: id }
 							})
 							  .done(function( msg ) {
+									swal(
+							      'Confirmé',
+							      'Groupe supprimé.',
+							      'success'
+							    )
+									table.ajax.reload();
 							  });
-					    swal(
-					      'Confirmé',
-					      'Groupe supprimé.',
-					      'success'
-					    )
+
 					  }
 					})
 				});
