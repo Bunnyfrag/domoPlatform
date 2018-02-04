@@ -69,11 +69,11 @@
 											icone = response.icone;
 										}
 										swal({
-										  title: action + ' un groupe',
+										  title: action + ' un groupe</br>',
 										  html:
-										    '<label for="label">Label</label><input type=text name="label" value="'+label+'">' +
-										    '<label for="ordre">Ordre</label><input type=text name="ordre" value="'+ordre+'">' +
-										    '<label for="icone">Icone</label><input type=text name="icone" value="'+icone+'">',
+										    '<label for="label">Label</label><input type=text name="label" value="'+label+'"></br></br>' +
+										    '<label for="ordre">Ordre</label><input type=text name="ordre" value="'+ordre+'"></br></br>' +
+										    '<label for="icone">Icone</label><input type=text name="icone" value="'+icone+'"></br></br>',
 										  showCloseButton: true,
 										  showCancelButton: true,
 										  focusConfirm: false,

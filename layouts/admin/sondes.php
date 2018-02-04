@@ -102,13 +102,13 @@
 											groupe	= response.groupe;
 										}
 										swal({
-										  title: Action + ' une sonde',
+										  title: Action + ' une sonde</br>',
 										  html:
-										    '<label for="code">Code</label><input type=text name="code" value="'+code+'">' +
-										    '<label for="valeur">Valeur</label><input type=text name="valeur" value="'+valeur+'">' +
-										    '<label for="label">Label</label><input type=text name="label" value="'+label+'">'+
-												'<label for="groupe_id">Groupe</label><select name="groupe_id" value="'+groupe+'">'+groupeList+'</select><br/>'+
-												'<label for="type_sonde_id">Type</label><select type=text name="type_sonde_id" value="'+type+'">'+typeSondeList+'</select><br/>',
+										    '<label for="code">Code</label><input type=text name="code" value="'+code+'"></br></br>' +
+										    '<label for="valeur">Valeur</label><input type=text name="valeur" value="'+valeur+'"></br></br>' +
+										    '<label for="label">Label</label><input type=text name="label" value="'+label+'"></br></br>'+
+												'<label for="groupe_id">Groupe</label><select name="groupe_id" value="'+groupe+'">'+groupeList+'</select><br/></br></br>'+
+												'<label for="type_sonde_id">Type</label><select type=text name="type_sonde_id" value="'+type+'">'+typeSondeList+'</select><br/></br></br>',
 										  showCloseButton: true,
 										  showCancelButton: true,
 										  focusConfirm: false,
