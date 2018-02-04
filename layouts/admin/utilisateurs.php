@@ -54,7 +54,6 @@
 					var id = this.dataset.id;
 					var typeUtilisateurList;
 					event.preventDefault();
-					console.log(this.dataset.id);
 
 
 						//Retriving type_utilisateur list
@@ -103,7 +102,6 @@
 										  confirmButtonText:	'Valider',
 										  cancelButtonText:		'Annuler',
 										}).then((result) => {
-											console.log(result);
 											if (result.value) {
 
 												$.ajax({

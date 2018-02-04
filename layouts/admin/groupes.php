@@ -49,7 +49,6 @@
 					let label = '',ordre = '',icone = '';
 					var id = this.dataset.id;
 					event.preventDefault();
-					console.log(this.dataset.id);
 
 						$.ajax({
 							url			: 'ajax/update_groupe.php?fuseaction=getValuesById',
@@ -81,7 +80,6 @@
 										  confirmButtonText:	'Valider',
 										  cancelButtonText:		'Annuler',
 										}).then((result) => {
-											console.log(result);
 											if (result.value) {
 
 												$.ajax({
@@ -107,7 +105,6 @@
 										return;
 									}
 									resultId = parseInt( response.result );
-									console.log(label);
 							}
 						});
 
