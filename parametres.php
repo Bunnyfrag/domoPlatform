@@ -1,7 +1,10 @@
 <?php
 
 // Démarrage de la session
-	session_start();
+	//session_start();
+	//require ( 'layouts/admin/login_func.php');
+
+
 
 // Vos identifiants SQL
 	define( 'MYSQL_HOST', 		'localhost' );
@@ -18,31 +21,31 @@
 	} catch( PDOException $e ) {
 		die( 'ERREUR PDO : ' . $e->getMessage() . ' => (Verifier les parametres de connexion)' );
 	}
-	
+
 // Type de messages
 	define( 'TYPE_MESSAGE_INFORMATION',		1 );
 	define( 'TYPE_MESSAGE_MODIFICATION',	2 );
 	define( 'TYPE_MESSAGE_ERREUR',			3 );
-	
+
 // Type de sonde
 	define( 'TYPE_SONDE_TEMPERATURE',		1 );
-	define( 'TYPE_SONDE_HORAIRE',			2 );	
+	define( 'TYPE_SONDE_HORAIRE',			2 );
 	define( 'TYPE_SONDE_PORTE',				3 );
 	define( 'TYPE_SONDE_FENETRE',			4 );
 	define( 'TYPE_SONDE_ECLAIRAGE',			5 );
 	define( 'TYPE_SONDE_LUMINOSITE',		6 );
 	define( 'TYPE_SONDE_CHAUFFAGE',			7 );
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
 //****************
 // Veuillez ne pas toucher aux lignes ci-dessous
 //****************

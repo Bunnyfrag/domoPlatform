@@ -16,6 +16,7 @@
 
 	input[type="text"],
 	input[type="email"],
+	input[type="password"],
 	textarea,
 	select.select { background-color:#fbfbfb; border:1px solid #d5d5d5; line-height:19px; padding:6px 12px; width:80%; }
 
@@ -109,9 +110,9 @@
 			#pageGroupe .sonde.typeSonde4 { }
 				#pageGroupe .sonde.typeSonde4 .imageSeule { text-align:center; }
 					#pageGroupe .sonde.typeSonde4 .imageSeule img { height:140px; margin-top:10px; cursor:pointer; }
-					#pageGroupe .sonde.typeSonde4 .blocBtn { text-align:right; margin-top:-23px; margin-right:10px; }
-					#pageGroupe .sonde.typeSonde4 .blocBtn .fenetreAction input[name="btnFenetre1"] { margin-top:-23px; }
-					#pageGroupe .sonde.typeSonde4 .blocBtn .fenetreAction input[name="btnFenetre2"] { margin-top:-193px; }
+					/* #pageGroupe .sonde.typeSonde4 .blocBtn { text-align:right; margin-top:-23px; margin-right:10px; }*/
+					#pageGroupe .sonde.typeSonde4 .blocBtn input[name="btnFenetre1"] { text-align:right; margin-top:-73px; margin-right:10px; }
+					#pageGroupe .sonde.typeSonde4 .blocBtn input[name="btnFenetre2"] { text-align:right; margin-top:-143px; margin-right:10px; }
 
 			/*Éclairage*/
 			#pageGroupe .sonde.typeSonde5 { }

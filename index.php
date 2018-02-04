@@ -2,6 +2,7 @@
 
 // Include parameter file
 	require ( 'parametres.php' );
+	require ( 'layouts/admin/login_func.php');
 
 // Choosing which page to show
 	$pageAffiche = 'accueil';
