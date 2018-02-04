@@ -54,7 +54,6 @@
 					var id = this.dataset.id;
 					var typeUtilisateurList;
 					event.preventDefault();
-					console.log(this.dataset.id);
 
 
 						//Retriving type_utilisateur list
@@ -92,18 +91,17 @@
 										swal({
 										  title: action + ' un utilisateur',
 										  html:
-										    '<label for="nom">Nom</label><input type=text name="nom" value="'+nom+'">' +
-										    '<label for="prenom">Prenom</label><input type=text name="prenom" value="'+prenom+'">' +
-												'<label for="type_utilisateur_id">Type d\'utilisateur</label><select name="type_utilisateur_id" value="'+type_utilisateur_id+'">'+typeUtilisateurList+'</select><br/>'+
-										    '<label for="login">Login</label><input type=text name="login" value="'+login+'">'+
-												'<label for="password">Mot de passe</label><input type=password name="password" value="'+password+'">',
+										    '<label for="nom">Nom</label><input type="text" name="userform" value="'+nom+'"></br></br>' +
+										    '<label for="prenom">Prenom</label><input type="text" name="userform" value="'+prenom+'"></br></br>' +
+												'<label for="type_utilisateur_id">Type d\'utilisateur</label><select name="type_utilisateur_id" value="'+type_utilisateur_id+'">'+typeUtilisateurList+'</select><br/></br>'+
+										    '<label for="login">Login</label><input type="text" name="userform" value="'+login+'"></br></br>'+
+												'<label for="password">Mot de passe</label><input type="password" name="userform" value="'+password+'"></br></br>',
 										  showCloseButton: true,
 										  showCancelButton: true,
 										  focusConfirm: false,
 										  confirmButtonText:	'Valider',
 										  cancelButtonText:		'Annuler',
 										}).then((result) => {
-											console.log(result);
 											if (result.value) {
 
 												$.ajax({
