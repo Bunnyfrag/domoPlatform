@@ -8,7 +8,7 @@ function getDataTableValues(){
 		$queryGroupe = 'SELECT id,label,ordre,icone FROM groupe ';
 
 		if( isset($_REQUEST['sSearch']) ){
-			$queryGroupe .= 'WHERE label LIKE :s ';
+			$queryGroupe .= 'WHERE label LIKE :s OR icone LIKE :s ';
 		}
 		$stmtGroupe = $pdo->query( $queryGroupe );
 		if( isset($_REQUEST['sSearch']) ){
@@ -23,7 +23,7 @@ function getDataTableValues(){
 			$groupeValue[] = $groupe['ordre'];
 			$groupeValue[] = '<span class="fa '.$groupe['icone'].'"></span>';
 			$groupeValue[] = '<a href="#" class="edit" data-id="'.$groupe['id'].'"><span style="color:green;" class="fa fa-edit"></span></a>';
-			$groupeValue[] = '<a href="#" class="delete" data-id="'.$groupe['id'].'"><span style="color:red;" class="fa fa-trash"></span></a>';
+			$groupeValue[] = '<a href="#" class="delete" data-id="'.$groupe['id'].'" data-lbl="'.$groupe['label'].'"><span style="color:red;" class="fa fa-trash"></span></a>';
 			$groupeValues[] = $groupeValue;
 		}
 		$ret['iTotalRecords'] = count($groupes);

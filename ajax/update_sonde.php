@@ -8,7 +8,7 @@ function getDataTableValues(){
 		$querySonde = 'SELECT sonde.id, sonde.code, sonde.valeur, sonde.label , sonde.type_sonde_id, type_sonde.label as type_sonde_label, sonde.groupe_id, groupe.label as groupe_label  FROM sonde ';
 
 		if( isset($_REQUEST['sSearch']) ){
-			$querySonde .= 'WHERE label LIKE :s ';
+			$querySonde .= 'WHERE label LIKE :s OR type_sonde_label LIKE :s OR code LIKE :s OR valeur LIKE :s OR groupe_label LIKE :s ';
 		}
 
 		$querySonde.='LEFT JOIN type_sonde ON sonde.type_sonde_id=type_sonde.id LEFT JOIN groupe ON sonde.groupe_id=groupe.id ';
@@ -29,7 +29,7 @@ function getDataTableValues(){
 			$sondeValue[] = $sonde['type_sonde_label'];
 			$sondeValue[] = $sonde['groupe_label'];
 			$sondeValue[] = '<a href="#" class="edit" data-id="'.$sonde['id'].'"><span style="color:green;" class="fa fa-edit"></span></a>';
-			$sondeValue[] = '<a href="#" class="delete" data-id="'.$sonde['id'].'"><span style="color:red;" class="fa fa-trash"></span></a>';
+			$sondeValue[] = '<a href="#" class="delete" data-id="'.$sonde['id'].'" data-lbl="'.$sonde['label'].'"><span style="color:red;" class="fa fa-trash"></span></a>';
 			$sondeValues[] = $sondeValue;
 		}
 		$ret['iTotalRecords'] = count($sondes);

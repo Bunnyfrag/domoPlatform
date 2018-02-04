@@ -115,24 +115,24 @@
 		}
 		?>
 
-		<!--
-		<div class="sonde typeSonde5" data-sonde-id="3">
-			<div class="titre">Lampe du plafond</div>
-			<div class="content">
-				<div class="imageSeule">
-					<img src="img/lampe_eteinte.png">
-				</div>
-				<div class="blocBtn">
-					<input name="btnLampe" value="Allumer" type="button">
-				</div>
-			</div>
-		</div>-->
 	</div>
 
 </div>
 
 <script>
 	$(document).ready( function(){
+
+		$.ajax({
+			url			: 'ajax/update_groupe.php?fuseaction=getValuesById',
+			type		: 'POST',
+			data		: {
+				id	: '<?php echo $groupeId; ?>'
+			},
+			dataType	: 'json',
+			success		: function( response ){
+				$('.contentTitre').html(response.label);
+			}
+		});
 
 		$('#pageGroupe').on( 'click', 'input[name="btnLampe"]', function( e ){	/* Toggle the light */
 			// Stop propagating

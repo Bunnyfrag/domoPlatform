@@ -153,7 +153,7 @@
 				$(this).click(function(event){
 					var id = this.dataset.id;
 					swal({
-					  title: 'Supprimer?',
+					  title: 'Supprimer '+this.dataset.lbl+'?',
 					  type: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor:	'#3085d6',

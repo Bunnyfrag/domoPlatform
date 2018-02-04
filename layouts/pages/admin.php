@@ -20,7 +20,7 @@
 	$(document).ready( function(){
 
 		//admin display
-		$('a').click(function(e){
+		$('div.links a').click(function(e){
 			e.preventDefault();
 			$.ajax({
 				url				: 'layouts/admin/'+this.dataset.page+'.php',

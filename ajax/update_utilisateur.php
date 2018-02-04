@@ -28,7 +28,7 @@ function getDataTableValues(){
 			$utilisateurValue[] = $utilisateur['login'];
 			$utilisateurValue[] = $utilisateur['password'];
 			$utilisateurValue[] = '<a href="#" class="edit" data-id="'.$utilisateur['id'].'"><span style="color:green;" class="fa fa-edit"></span></a>';
-			$utilisateurValue[] = '<a href="#" class="delete" data-id="'.$utilisateur['id'].'"><span style="color:red;" class="fa fa-trash"></span></a>';
+			$utilisateurValue[] = '<a href="#" class="delete" data-id="'.$utilisateur['id'].'" data-lbl="'.$utilisateur['login'].'"><span style="color:red;" class="fa fa-trash"></span></a>';
 			$utilisateurValues[] = $utilisateurValue;
 		}
 		$ret['iTotalRecords'] = count($utilisateurs);
