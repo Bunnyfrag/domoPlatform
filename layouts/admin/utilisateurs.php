@@ -87,7 +87,7 @@
 											prenom	= response.prenom;
 											type_utilisateur_id = response.type_utilisateur_id;
 											login		= response.login;
-											password= response.password;
+											//password= response.password;
 										}
 										swal({
 										  title: action + ' un utilisateur',
@@ -96,7 +96,7 @@
 										    '<label for="prenom">Prenom</label><input type=text name="prenom" value="'+prenom+'">' +
 												'<label for="type_utilisateur_id">Type d\'utilisateur</label><select name="type_utilisateur_id" value="'+type_utilisateur_id+'">'+typeUtilisateurList+'</select><br/>'+
 										    '<label for="login">Login</label><input type=text name="login" value="'+login+'">'+
-												'<label for="password">Mot de passe</label><input type=text name="password" value="'+password+'">',
+												'<label for="password">Mot de passe</label><input type=password name="password" value="'+password+'">',
 										  showCloseButton: true,
 										  showCancelButton: true,
 										  focusConfirm: false,
@@ -111,9 +111,11 @@
 													type		: 'POST',
 													data		: {
 														id		: id,
-														label	: $('input[name="label"]').val(),
-														ordre	: $('input[name="ordre"]').val(),
-														icone	: $('input[name="icone"]').val()
+														nom			: $('input[name="nom"]').val(),
+														prenom	: $('input[name="prenom"]').val(),
+														type_utilisateur_id	: $('select[name="type_utilisateur_id"]').val(),
+														login		: $('input[name="login"]').val(),
+														password: $('input[name="password"]').val()
 													},
 													dataType	: 'json',
 													success		: function( response ){
@@ -129,7 +131,6 @@
 										return;
 									}
 									resultId = parseInt( response.result );
-									console.log(label);
 							}
 						});
 

@@ -65,18 +65,27 @@ function saveData($id){
 	$stmt->execute();
 	$result = count( $stmt->fetchAll() );
 	if( $result < 1){
-		$request = 'INSERT INTO utilisateur ( nom, prenom, type_utilisateur_id, login, password ) VALUES ( :nom, :prenom, :type_utilisateur_id, :login, :password )';
+		if ( !isset($_REQUEST['password']) || empty($_REQUEST['password']) ) {
+			return(false);
+		}
+		$request = 'INSERT INTO utilisateur ( nom, prenom, type_utilisateur_id, login, password, date_derniere_connexion ) VALUES ( :nom, :prenom, :type_utilisateur_id, :login, :password , :date)';
 	}else{
-		$request = 'UPDATE utilisateur SET nom = :nom, prenom = :prenom, type_utilisateur_id = :type_utilisateur_id, login = :login, password = :password WHERE id = :id';
+		$request = 'UPDATE utilisateur SET nom = :nom, prenom = :prenom, type_utilisateur_id = :type_utilisateur_id, login = :login';
+		if ( isset($_REQUEST['password']) && !empty($_REQUEST['password']) ) {
+			$request.=	', password = :password';
+		}
+		$request.=		' WHERE id = :id ';
 	}
 	$prep = $pdo->prepare( $request );
 	$prep->bindValue(':nom', $_REQUEST['nom']);
 	$prep->bindValue(':prenom', $_REQUEST['prenom']);
 	$prep->bindValue(':type_utilisateur_id', $_REQUEST['type_utilisateur_id']);
 	$prep->bindValue(':login', $_REQUEST['login']);
-	$prep->bindValue(':password', $_REQUEST['password']);
+	$prep->bindValue(':password', hash('sha512', $_REQUEST['password']) );
 	if( $result > 0){
 		$prep->bindParam(':id', $id);
+	}else{
+		$prep->bindParam(':date', date("Y-m-d H:i:s") );
 	}
 	return( $prep->execute() );
 
@@ -134,7 +143,7 @@ switch ($_GET['fuseaction']) {
 	break;
 
 	case 'getTypeUtilisateurListForSelect':
-		getTypeUtilisateurListForSelect();
+		echo getTypeUtilisateurListForSelect();
 	break;
 
 	default:
